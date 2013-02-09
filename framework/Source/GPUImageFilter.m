@@ -331,8 +331,12 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
                 NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
             }
             
-            CFRelease(attrs);
-            CFRelease(empty);
+            if (attrs) {
+                CFRelease(attrs);
+            }
+            if (empty) {
+                CFRelease(empty);
+            }
 
             glBindTexture(CVOpenGLESTextureGetTarget(renderTexture), CVOpenGLESTextureGetName(renderTexture));
             outputTexture = CVOpenGLESTextureGetName(renderTexture);
