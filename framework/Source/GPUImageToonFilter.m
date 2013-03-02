@@ -1,6 +1,4 @@
 #import "GPUImageToonFilter.h"
-#import "GPUImageSobelEdgeDetectionFilter.h"
-#import "GPUImage3x3ConvolutionFilter.h"
 
 // Code from "Graphics Shaders: Theory and Practice" by M. Bailey and S. Cunningham 
 NSString *const kGPUImageToonFragmentShaderString = SHADER_STRING

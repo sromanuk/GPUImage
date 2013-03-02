@@ -1,6 +1,3 @@
-#import "ColorTrackingAppDelegate.h"
-#import "ColorTrackingViewController.h"
-
 @implementation ColorTrackingAppDelegate
 
 @synthesize window = _window;

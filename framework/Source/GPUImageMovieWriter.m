@@ -1,7 +1,5 @@
 #import "GPUImageMovieWriter.h"
 
-#import "GPUImageOpenGLESContext.h"
-#import "GLProgram.h"
 #import "GPUImageFilter.h"
 
 NSString *const kGPUImageColorSwizzlingFragmentShaderString = SHADER_STRING

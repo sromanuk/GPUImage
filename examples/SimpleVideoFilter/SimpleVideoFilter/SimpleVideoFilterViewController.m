@@ -1,5 +1,3 @@
-#import "SimpleVideoFilterViewController.h"
-
 @implementation SimpleVideoFilterViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

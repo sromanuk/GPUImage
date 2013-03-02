@@ -1,5 +1,3 @@
-#import "SimpleImageAppDelegate.h"
-
 @implementation SimpleImageAppDelegate
 
 @synthesize window = _window;

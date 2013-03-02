@@ -1,6 +1,3 @@
-#import "ImageFilteringBenchmarkController.h"
-#import "GPUImage.h"
-
 @implementation ImageFilteringBenchmarkController
 
 #pragma mark -

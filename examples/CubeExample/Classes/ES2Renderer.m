@@ -1,5 +1,3 @@
-#import "ES2Renderer.h"
-
 // uniform index
 enum {
     UNIFORM_MODELVIEWMATRIX,

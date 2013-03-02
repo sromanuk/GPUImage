@@ -1,5 +1,3 @@
-#import "VideoFilteringBenchmarkController.h"
-
 @implementation VideoFilteringBenchmarkController
 
 #pragma mark -

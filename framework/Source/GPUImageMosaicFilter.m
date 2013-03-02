@@ -3,7 +3,6 @@
 
 
 #import "GPUImageMosaicFilter.h"
-#import "GPUImagePicture.h"
 
 NSString *const kGPUImageMosaicFragmentShaderString = SHADER_STRING
 (

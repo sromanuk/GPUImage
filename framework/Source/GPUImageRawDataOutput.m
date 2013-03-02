@@ -1,7 +1,5 @@
 #import "GPUImageRawDataOutput.h"
 
-#import "GPUImageOpenGLESContext.h"
-#import "GLProgram.h"
 #import "GPUImageFilter.h"
 #import "GPUImageMovieWriter.h"
 

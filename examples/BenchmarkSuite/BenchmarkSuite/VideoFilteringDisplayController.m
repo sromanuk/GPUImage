@@ -1,5 +1,3 @@
-#import "VideoFilteringDisplayController.h"
-
 @implementation VideoFilteringDisplayController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

@@ -1,6 +1,3 @@
-#import "ShowcaseFilterListController.h"
-#import "ShowcaseFilterViewController.h"
-
 @interface ShowcaseFilterListController ()
 
 @end

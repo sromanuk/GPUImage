@@ -1,5 +1,3 @@
-#import "MultiViewAppDelegate.h"
-
 @implementation MultiViewAppDelegate
 
 @synthesize window = _window;

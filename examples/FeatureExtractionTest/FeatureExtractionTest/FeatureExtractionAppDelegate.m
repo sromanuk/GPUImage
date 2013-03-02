@@ -1,5 +1,3 @@
-#import "FeatureExtractionAppDelegate.h"
-
 @interface FeatureExtractionAppDelegate()
 {
     GPUImageHoughTransformLineDetector *houghTransformLineDetector, *houghTransformLineDetector2, *houghTransformLineDetector3, *houghTransformLineDetector4;

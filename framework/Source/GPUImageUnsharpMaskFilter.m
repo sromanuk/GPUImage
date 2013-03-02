@@ -1,5 +1,4 @@
 #import "GPUImageUnsharpMaskFilter.h"
-#import "GPUImageFilter.h"
 #import "GPUImageTwoInputFilter.h"
 #import "GPUImageGaussianBlurFilter.h"
 

@@ -1,6 +1,3 @@
-#import "PhotoAppDelegate.h"
-#import "PhotoViewController.h"
-
 @implementation PhotoAppDelegate
 
 @synthesize window = _window;

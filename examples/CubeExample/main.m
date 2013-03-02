@@ -5,7 +5,6 @@
 //  Created by Brad Larson on 4/20/2010.
 //
 
-#import <UIKit/UIKit.h>
 #import "CubeExampleAppDelegate.h"
 
 int main(int argc, char *argv[]) {

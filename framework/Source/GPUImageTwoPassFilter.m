@@ -123,6 +123,10 @@
 
 - (void)createFilterFBOofSize:(CGSize)currentFBOSize;
 {
+    if (currentFBOSize.width == 0 || currentFBOSize.height == 0) {
+        currentFBOSize = CGSizeMake(512, 288);
+    }
+    
     runSynchronouslyOnVideoProcessingQueue(^{
         [GPUImageOpenGLESContext useImageProcessingContext];
 
@@ -184,7 +188,8 @@
                                                                 &renderTexture);
             if (err) 
             {
-                NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
+//                NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
+                NSLog(@"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
             }
             
             CFRelease(attrs);

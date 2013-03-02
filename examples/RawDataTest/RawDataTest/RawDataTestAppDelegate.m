@@ -1,5 +1,3 @@
-#import "RawDataTestAppDelegate.h"
-
 @implementation RawDataTestAppDelegate
 
 @synthesize window = _window;

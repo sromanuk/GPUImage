@@ -1,7 +1,4 @@
 #import "GPUImageView.h"
-#import <OpenGLES/EAGLDrawable.h>
-#import <QuartzCore/QuartzCore.h>
-#import "GPUImageOpenGLESContext.h"
 #import "GPUImageFilter.h"
 #import <AVFoundation/AVFoundation.h>
 
@@ -225,7 +222,7 @@
 - (void)recalculateViewGeometry;
 {
     runSynchronouslyOnVideoProcessingQueue(^{
-        CGFloat heightScaling, widthScaling;
+        CGFloat heightScaling = 1.f, widthScaling = 1.f;
         
         CGSize currentViewSize = self.bounds.size;
         

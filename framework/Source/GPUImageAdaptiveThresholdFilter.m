@@ -1,5 +1,4 @@
 #import "GPUImageAdaptiveThresholdFilter.h"
-#import "GPUImageFilter.h"
 #import "GPUImageTwoInputFilter.h"
 #import "GPUImageGrayscaleFilter.h"
 #import "GPUImageBoxBlurFilter.h"

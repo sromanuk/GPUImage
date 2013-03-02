@@ -182,7 +182,7 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
         GLubyte *rawImagePixels;
         
         CGDataProviderRef dataProvider;
-        if ([GPUImageOpenGLESContext supportsFastTextureUpload] && preparedToCaptureImage)
+        if ([GPUImageOpenGLESContext supportsFastTextureUpload] && preparedToCaptureImage && renderTarget)
         {
             //        glFlush();
             glFinish();
@@ -203,13 +203,14 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
         
         CGColorSpaceRef defaultRGBColorSpace = CGColorSpaceCreateDeviceRGB();
         
-        if ([GPUImageOpenGLESContext supportsFastTextureUpload] && preparedToCaptureImage)
+        if ([GPUImageOpenGLESContext supportsFastTextureUpload] && preparedToCaptureImage && renderTarget)
         {
             cgImageFromBytes = CGImageCreate((int)currentFBOSize.width, (int)currentFBOSize.height, 8, 32, CVPixelBufferGetBytesPerRow(renderTarget), defaultRGBColorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst, dataProvider, NULL, NO, kCGRenderingIntentDefault);
         }
         else
         {
             cgImageFromBytes = CGImageCreate((int)currentFBOSize.width, (int)currentFBOSize.height, 8, 32, 4 * (int)currentFBOSize.width, defaultRGBColorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaLast, dataProvider, NULL, NO, kCGRenderingIntentDefault);
+            CFRetain(cgImageFromBytes);
         }
         
         // Capture image with current device orientation
@@ -280,7 +281,12 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
 
 - (void)createFilterFBOofSize:(CGSize)currentFBOSize;
 {
+    if (currentFBOSize.width == 0 || currentFBOSize.height == 0) {
+        currentFBOSize = CGSizeMake(512, 288);
+    }
+    
     runSynchronouslyOnVideoProcessingQueue(^{
+        
         [GPUImageOpenGLESContext useImageProcessingContext];
         glActiveTexture(GL_TEXTURE1);
         
@@ -328,7 +334,8 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
                                                                 &renderTexture);
             if (err)
             {
-                NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
+//                NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
+                NSLog(@"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
             }
             
             if (attrs) {
@@ -809,10 +816,10 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
 
 - (CGPoint)rotatedPoint:(CGPoint)pointToRotate forRotation:(GPUImageRotationMode)rotation;
 {
-    CGPoint rotatedPoint;
+    CGPoint rotatedPoint = CGPointMake(0.f, 0.f);
     switch(rotation)
     {
-        case kGPUImageNoRotation: return pointToRotate; break;
+        case kGPUImageNoRotation: return pointToRotate;
         case kGPUImageFlipHorizonal:
         {
             rotatedPoint.x = 1.0 - pointToRotate.x;

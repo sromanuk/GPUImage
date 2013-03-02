@@ -1,6 +1,3 @@
-#import "ColorTrackingViewController.h"
-#import <QuartzCore/QuartzCore.h>
-
 @implementation ColorTrackingViewController
 
 #pragma mark -

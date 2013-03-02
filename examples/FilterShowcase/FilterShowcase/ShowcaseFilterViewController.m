@@ -1,6 +1,3 @@
-#import "ShowcaseFilterViewController.h"
-#import <CoreImage/CoreImage.h>
-
 @implementation ShowcaseFilterViewController
 @synthesize faceDetector;
 #pragma mark -

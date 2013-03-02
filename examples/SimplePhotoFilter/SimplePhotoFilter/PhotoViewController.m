@@ -1,6 +1,3 @@
-#import "PhotoViewController.h"
-#import <AssetsLibrary/AssetsLibrary.h>
-
 @interface PhotoViewController ()
 
 @end

@@ -1,6 +1,3 @@
-#import "ShowcaseAppDelegate.h"
-#import "ShowcaseFilterListController.h"
-
 @implementation ShowcaseAppDelegate
 
 @synthesize window = _window;

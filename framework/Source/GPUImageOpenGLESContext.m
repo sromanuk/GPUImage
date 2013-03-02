@@ -1,6 +1,4 @@
 #import "GPUImageOpenGLESContext.h"
-#import <OpenGLES/EAGLDrawable.h>
-#import <AVFoundation/AVFoundation.h>
 
 @interface GPUImageOpenGLESContext()
 {

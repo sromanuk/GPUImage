@@ -1,5 +1,3 @@
-#import "MultiViewViewController.h"
-
 @implementation MultiViewViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

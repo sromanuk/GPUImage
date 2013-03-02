@@ -1,6 +1,3 @@
-#import "SimpleVideoFilterAppDelegate.h"
-#import "SimpleVideoFilterViewController.h"
-
 @implementation SimpleVideoFilterAppDelegate
 
 @synthesize window = _window;

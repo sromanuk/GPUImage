@@ -1,5 +1,3 @@
-#import "BenchmarkTableViewController.h"
-
 typedef enum { GPUIMAGE_BENCHMARK_CPU, GPUIMAGE_BENCHMARK_COREIMAGE, GPUIMAGE_BENCHMARK_GPUIMAGE } GPUImageBenchmarkSection;
 
 @implementation BenchmarkTableViewController

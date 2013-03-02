@@ -1,5 +1,3 @@
-#import "SimpleImageViewController.h"
-
 @implementation SimpleImageViewController
 
 - (void)didReceiveMemoryWarning

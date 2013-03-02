@@ -1,5 +1,3 @@
-#import "DisplayViewController.h"
-
 @interface DisplayViewController ()
 
 @end

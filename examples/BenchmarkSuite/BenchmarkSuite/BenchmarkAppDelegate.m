@@ -1,6 +1,4 @@
-#import "BenchmarkAppDelegate.h"
 #import "ImageFilteringBenchmarkController.h"
-#import "VideoFilteringBenchmarkController.h"
 
 //  The tab bar icons in this application are courtesy of Joseph Wain / glyphish.com
 //  See the GlyphishIconLicense.txt file for more information on these icons

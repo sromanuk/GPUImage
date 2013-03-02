@@ -1,5 +1,4 @@
 #import "GPUImageFilterGroup.h"
-#import "GPUImagePicture.h"
 
 @implementation GPUImageFilterGroup
 

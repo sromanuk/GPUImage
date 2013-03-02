@@ -1,6 +1,3 @@
-#import "CubeExampleAppDelegate.h"
-#import "DisplayViewController.h"
-
 @implementation CubeExampleAppDelegate
 
 @synthesize window;

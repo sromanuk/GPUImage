@@ -69,7 +69,7 @@
     }
     
     GLubyte *imageData = NULL;
-    CFDataRef dataFromImageDataProvider;
+    CFDataRef dataFromImageDataProvider = nil;
     
     //    CFAbsoluteTime elapsedTime, startTime = CFAbsoluteTimeGetCurrent();
     
@@ -133,7 +133,9 @@
     }
     else
     {
-        CFRelease(dataFromImageDataProvider);
+        if (dataFromImageDataProvider) {
+            CFRelease(dataFromImageDataProvider);
+        }
     }
     
     return self;
