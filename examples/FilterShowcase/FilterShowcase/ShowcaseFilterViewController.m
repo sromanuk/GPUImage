@@ -829,22 +829,22 @@
             
             filter = [[GPUImagePerlinNoiseFilter alloc] init];
         }; break;
-        case GPUIMAGE_VORONI: 
+        case GPUIMAGE_VORONOI:
         {
-            self.title = @"Voroni";
+            self.title = @"Voronoi";
             self.filterSettingsSlider.hidden = YES;
             
-            GPUImageJFAVoroniFilter *jfa = [[GPUImageJFAVoroniFilter alloc] init];
+            GPUImageJFAVoronoiFilter *jfa = [[GPUImageJFAVoronoiFilter alloc] init];
             [jfa setSizeInPixels:CGSizeMake(1024.0, 1024.0)];
             
             sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"voroni_points2.png"]];
 
             [sourcePicture addTarget:jfa];
             
-            filter = [[GPUImageVoroniConsumerFilter alloc] init];
+            filter = [[GPUImageVoronoiConsumerFilter alloc] init];
             
             [jfa setSizeInPixels:CGSizeMake(1024.0, 1024.0)];
-            [(GPUImageVoroniConsumerFilter *)filter setSizeInPixels:CGSizeMake(1024.0, 1024.0)];
+            [(GPUImageVoronoiConsumerFilter *)filter setSizeInPixels:CGSizeMake(1024.0, 1024.0)];
             
             [videoCamera addTarget:filter];
             [jfa addTarget:filter];
@@ -1156,6 +1156,28 @@
             
             filter = [[GPUImageMedianFilter alloc] init];
 		}; break;
+        case GPUIMAGE_MOTIONBLUR:
+        {
+            self.title = @"Motion Blur";
+            self.filterSettingsSlider.hidden = NO;
+            
+            [self.filterSettingsSlider setMinimumValue:0.0];
+            [self.filterSettingsSlider setMaximumValue:180.0f];
+            [self.filterSettingsSlider setValue:0.0];
+            
+            filter = [[GPUImageMotionBlurFilter alloc] init];
+        }; break;
+        case GPUIMAGE_ZOOMBLUR:
+        {
+            self.title = @"Zoom Blur";
+            self.filterSettingsSlider.hidden = NO;
+            
+            [self.filterSettingsSlider setMinimumValue:0.0];
+            [self.filterSettingsSlider setMaximumValue:2.5f];
+            [self.filterSettingsSlider setValue:1.0];
+            
+            filter = [[GPUImageZoomBlurFilter alloc] init];
+        }; break;
         case GPUIMAGE_UIELEMENT:
         {
             self.title = @"UI Element";
@@ -1252,7 +1274,7 @@
     else 
     {
     
-        if (filterType != GPUIMAGE_VORONI) 
+        if (filterType != GPUIMAGE_VORONOI)
         {
             [videoCamera addTarget:filter];
         }
@@ -1269,7 +1291,7 @@
 				inputImage = [UIImage imageNamed:@"mask"];
 			}
             /*
-			else if (filterType == GPUIMAGE_VORONI) {
+			else if (filterType == GPUIMAGE_VORONOI) {
                 inputImage = [UIImage imageNamed:@"voroni_points.png"];
             }*/
             else {
@@ -1552,6 +1574,8 @@
         case GPUIMAGE_BILATERAL: [(GPUImageBilateralFilter *)filter setDistanceNormalizationFactor:[(UISlider*)sender value]]; break;
         case GPUIMAGE_FASTBLUR: [(GPUImageFastBlurFilter *)filter setBlurPasses:round([(UISlider*)sender value])]; break;
 //        case GPUIMAGE_FASTBLUR: [(GPUImageFastBlurFilter *)filter setBlurSize:[(UISlider*)sender value]]; break;
+        case GPUIMAGE_MOTIONBLUR: [(GPUImageMotionBlurFilter *)filter setBlurAngle:[(UISlider*)sender value]]; break;
+        case GPUIMAGE_ZOOMBLUR: [(GPUImageZoomBlurFilter *)filter setBlurSize:[(UISlider*)sender value]]; break;
         case GPUIMAGE_OPACITY:  [(GPUImageOpacityFilter *)filter setOpacity:[(UISlider *)sender value]]; break;
         case GPUIMAGE_GAUSSIAN_SELECTIVE: [(GPUImageGaussianSelectiveBlurFilter *)filter setExcludeCircleRadius:[(UISlider*)sender value]]; break;
         case GPUIMAGE_GAUSSIAN_POSITION: [(GPUImageGaussianBlurPositionFilter *)filter setBlurRadius:[(UISlider *)sender value]]; break;
