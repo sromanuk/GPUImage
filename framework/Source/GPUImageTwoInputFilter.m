@@ -25,7 +25,8 @@ NSString *const kGPUImageTwoInputTextureVertexShaderString = SHADER_STRING
 
 - (id)initWithFragmentShaderFromString:(NSString *)fragmentShaderString;
 {
-    if (!(self = [self initWithVertexShaderFromString:kGPUImageTwoInputTextureVertexShaderString fragmentShaderFromString:fragmentShaderString]))
+    if (!(self = [self initWithVertexShaderFromString:kGPUImageTwoInputTextureVertexShaderString
+                             fragmentShaderFromString:fragmentShaderString]))
     {
 		return nil;
     }
@@ -33,9 +34,11 @@ NSString *const kGPUImageTwoInputTextureVertexShaderString = SHADER_STRING
     return self;
 }
 
-- (id)initWithVertexShaderFromString:(NSString *)vertexShaderString fragmentShaderFromString:(NSString *)fragmentShaderString;
+- (id)initWithVertexShaderFromString:(NSString *)vertexShaderString
+            fragmentShaderFromString:(NSString *)fragmentShaderString;
 {
-    if (!(self = [super initWithVertexShaderFromString:vertexShaderString fragmentShaderFromString:fragmentShaderString]))
+    if (!(self = [super initWithVertexShaderFromString:vertexShaderString
+                              fragmentShaderFromString:fragmentShaderString]))
     {
 		return nil;
     }
@@ -57,8 +60,10 @@ NSString *const kGPUImageTwoInputTextureVertexShaderString = SHADER_STRING
     runSynchronouslyOnVideoProcessingQueue(^{
         [GPUImageOpenGLESContext useImageProcessingContext];
         filterSecondTextureCoordinateAttribute = [filterProgram attributeIndex:@"inputTextureCoordinate2"];
-        
-        filterInputTextureUniform2 = [filterProgram uniformIndex:@"inputImageTexture2"]; // This does assume a name of "inputImageTexture2" for second input texture in the fragment shader
+
+        // This does assume a name of "inputImageTexture2" for second input texture in the fragment shader
+        filterInputTextureUniform2 = [filterProgram uniformIndex:@"inputImageTexture2"];
+
         glEnableVertexAttribArray(filterSecondTextureCoordinateAttribute);
     });
     
@@ -84,7 +89,9 @@ NSString *const kGPUImageTwoInputTextureVertexShaderString = SHADER_STRING
 #pragma mark -
 #pragma mark Rendering
 
-- (void)renderToTextureWithVertices:(const GLfloat *)vertices textureCoordinates:(const GLfloat *)textureCoordinates sourceTexture:(GLuint)sourceTexture;
+- (void)renderToTextureWithVertices:(const GLfloat *)vertices
+                 textureCoordinates:(const GLfloat *)textureCoordinates
+                      sourceTexture:(GLuint)sourceTexture;
 {
     if (self.preventRendering)
     {
@@ -108,7 +115,8 @@ NSString *const kGPUImageTwoInputTextureVertexShaderString = SHADER_STRING
     
     glVertexAttribPointer(filterPositionAttribute, 2, GL_FLOAT, 0, 0, vertices);
 	glVertexAttribPointer(filterTextureCoordinateAttribute, 2, GL_FLOAT, 0, 0, textureCoordinates);
-    glVertexAttribPointer(filterSecondTextureCoordinateAttribute, 2, GL_FLOAT, 0, 0, [[self class] textureCoordinatesForRotation:inputRotation2]);
+    glVertexAttribPointer(filterSecondTextureCoordinateAttribute, 2, GL_FLOAT, 0, 0,
+            [[self class] textureCoordinatesForRotation:inputRotation2]);
     
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);    
 }
@@ -246,7 +254,6 @@ NSString *const kGPUImageTwoInputTextureVertexShaderString = SHADER_STRING
         }
     }
 
-    // || (hasReceivedFirstFrame && secondFrameCheckDisabled) || (hasReceivedSecondFrame && firstFrameCheckDisabled)
     if ((hasReceivedFirstFrame && hasReceivedSecondFrame) || updatedMovieFrameOppositeStillImage)
     {
         [super newFrameReadyAtTime:frameTime atIndex:0];

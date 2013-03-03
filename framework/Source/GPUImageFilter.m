@@ -175,7 +175,8 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
         
         CGSize currentFBOSize = [self sizeOfFBO];
         NSUInteger totalBytesForImage = (int)currentFBOSize.width * (int)currentFBOSize.height * 4;
-        // It appears that the width of a texture must be padded out to be a multiple of 8 (32 bytes) if reading from it using a texture cache
+        // It appears that the width of a texture must be padded out to be a multiple of 8 (32 bytes)
+        // if reading from it using a texture cache
         NSUInteger paddedWidthOfImage = CVPixelBufferGetBytesPerRow(renderTarget) / 4.0;
         NSUInteger paddedBytesForImage = paddedWidthOfImage * (int)currentFBOSize.height * 4;
         
@@ -186,11 +187,19 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
         {
             //        glFlush();
             glFinish();
-            CFRetain(renderTarget); // I need to retain the pixel buffer here and release in the data source callback to prevent its bytes from being prematurely deallocated during a photo write operation
+            // I need to retain the pixel buffer here and release in the data source callback
+            // to prevent its bytes from being prematurely deallocated during a photo write operation
+            CFRetain(renderTarget);
             CVPixelBufferLockBaseAddress(renderTarget, 0);
-            self.preventRendering = YES; // Locks don't seem to work, so prevent any rendering to the filter which might overwrite the pixel buffer data until done processing
+            // Locks don't seem to work, so prevent any rendering to the filter
+            // which might overwrite the pixel buffer data until done processing
+            self.preventRendering = YES;
             rawImagePixels = (GLubyte *)CVPixelBufferGetBaseAddress(renderTarget);
-            dataProvider = CGDataProviderCreateWithData((__bridge_retained void*)self, rawImagePixels, paddedBytesForImage, dataProviderUnlockCallback);
+            dataProvider = CGDataProviderCreateWithData(
+                    (__bridge_retained void *) self,
+                    rawImagePixels,
+                    paddedBytesForImage,
+                    dataProviderUnlockCallback);
         }
         else
         {
@@ -205,12 +214,46 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
         
         if ([GPUImageOpenGLESContext supportsFastTextureUpload] && preparedToCaptureImage && renderTarget)
         {
-            cgImageFromBytes = CGImageCreate((int)currentFBOSize.width, (int)currentFBOSize.height, 8, 32, CVPixelBufferGetBytesPerRow(renderTarget), defaultRGBColorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst, dataProvider, NULL, NO, kCGRenderingIntentDefault);
+            cgImageFromBytes = CGImageCreate(
+                    (int)currentFBOSize.width,
+                    (int)currentFBOSize.height,
+                    8,
+                    32,
+                    CVPixelBufferGetBytesPerRow(renderTarget),
+                    defaultRGBColorSpace,
+                    kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst,
+                    dataProvider,
+                    NULL,
+                    NO,
+                    kCGRenderingIntentDefault);
+
+            if (cgImageFromBytes) {
+                CFRetain(cgImageFromBytes);
+            } else {
+                NSLog(@"[renderTarget != nil] CGImage was not created. Input data was: currentFBOSize = %@; dataProvider = %@",
+                        CGSizeCreateDictionaryRepresentation(currentFBOSize), dataProvider);
+            }
         }
         else
         {
-            cgImageFromBytes = CGImageCreate((int)currentFBOSize.width, (int)currentFBOSize.height, 8, 32, 4 * (int)currentFBOSize.width, defaultRGBColorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaLast, dataProvider, NULL, NO, kCGRenderingIntentDefault);
-            CFRetain(cgImageFromBytes);
+            cgImageFromBytes = CGImageCreate(
+                    (int)currentFBOSize.width,
+                    (int)currentFBOSize.height,
+                    8,
+                    32,
+                    4 * (int)currentFBOSize.width,
+                    defaultRGBColorSpace,
+                    kCGBitmapByteOrderDefault | kCGImageAlphaLast,
+                    dataProvider,
+                    NULL,
+                    NO,
+                    kCGRenderingIntentDefault);
+            if (cgImageFromBytes) {
+                CFRetain(cgImageFromBytes);
+            } else {
+                NSLog(@"CGImage was not created. Input data was: currentFBOSize = %@; dataProvider = %@",
+                        CGSizeCreateDictionaryRepresentation(currentFBOSize), dataProvider);
+            }
         }
         
         // Capture image with current device orientation
@@ -269,7 +312,14 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
 - (CGSize)sizeOfFBO;
 {
     CGSize outputSize = [self maximumOutputSize];
-    if ( (CGSizeEqualToSize(outputSize, CGSizeZero)) || (inputTextureSize.width < outputSize.width) )
+
+    if (CGSizeEqualToSize(outputSize, CGSizeZero) &&
+            CGSizeEqualToSize(inputTextureSize, CGSizeZero)) {
+        return CGSizeMake(720.f, 1280.f);
+    }
+
+    if ((CGSizeEqualToSize(outputSize, CGSizeZero)) ||
+            ((inputTextureSize.width < outputSize.width) && inputTextureSize.width > 0))
     {
         return inputTextureSize;
     }
@@ -963,9 +1013,9 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
 - (CGSize)maximumOutputSize;
 {
     // I'm temporarily disabling adjustments for smaller output sizes until I figure out how to make this work better
-    return CGSizeZero;
+//    return CGSizeZero;
 
-    /*
+
     if (CGSizeEqualToSize(cachedMaximumOutputSize, CGSizeZero))
     {
         for (id<GPUImageInput> currentTarget in targets)
@@ -978,7 +1028,7 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
     }
     
     return cachedMaximumOutputSize;
-     */
+
 }
 
 - (void)endProcessing 
