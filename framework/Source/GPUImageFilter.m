@@ -251,8 +251,8 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
             if (cgImageFromBytes) {
                 CFRetain(cgImageFromBytes);
             } else {
-                NSLog(@"CGImage was not created. Input data was: currentFBOSize = %@; dataProvider = %@",
-                        CGSizeCreateDictionaryRepresentation(currentFBOSize), dataProvider);
+                NSLog(@"CGImage was not created. Input data was: currentFBOSize = %@",
+                        CGSizeCreateDictionaryRepresentation(currentFBOSize));
             }
         }
         
