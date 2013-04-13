@@ -223,6 +223,11 @@ NSString *const kGPUImageHarrisCornerDetectionFragmentShaderString = SHADER_STRI
     }
 }
 
+- (BOOL)wantsMonochromeInput;
+{
+    return YES;
+}
+
 #pragma mark -
 #pragma mark Accessors
 
