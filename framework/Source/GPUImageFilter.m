@@ -230,8 +230,10 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
             if (cgImageFromBytes) {
                 CFRetain(cgImageFromBytes);
             } else {
+                CFDictionaryRef sizeDict = CGSizeCreateDictionaryRepresentation(currentFBOSize);
                 NSLog(@"[renderTarget != nil] CGImage was not created. Input data was: currentFBOSize = %@; dataProvider = %@",
-                        CGSizeCreateDictionaryRepresentation(currentFBOSize), dataProvider);
+                        sizeDict, dataProvider);
+                CFRelease(sizeDict);
             }
         }
         else
@@ -251,8 +253,9 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
             if (cgImageFromBytes) {
                 CFRetain(cgImageFromBytes);
             } else {
-                NSLog(@"CGImage was not created. Input data was: currentFBOSize = %@",
-                        CGSizeCreateDictionaryRepresentation(currentFBOSize));
+                CFDictionaryRef sizeDict = CGSizeCreateDictionaryRepresentation(currentFBOSize);
+                NSLog(@"CGImage was not created. Input data was: currentFBOSize = %@", sizeDict);
+                CFRelease(sizeDict);
             }
         }
         
@@ -364,7 +367,14 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
             attrs = CFDictionaryCreateMutable(kCFAllocatorDefault, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
             CFDictionarySetValue(attrs, kCVPixelBufferIOSurfacePropertiesKey, empty);
             
-            err = CVPixelBufferCreate(kCFAllocatorDefault, (int)currentFBOSize.width, (int)currentFBOSize.height, kCVPixelFormatType_32BGRA, attrs, &renderTarget);
+            err = CVPixelBufferCreate(kCFAllocatorDefault,
+                    (int)currentFBOSize.width, (int)currentFBOSize.height, kCVPixelFormatType_32BGRA,
+                    attrs, &renderTarget);
+            if (attrs) {
+                CFRelease(attrs);
+                attrs = nil;
+            }
+
             if (err)
             {
                 NSLog(@"FBO size: %f, %f", currentFBOSize.width, currentFBOSize.height);
@@ -387,10 +397,7 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
 //                NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
                 NSLog(@"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
             }
-            
-            if (attrs) {
-                CFRelease(attrs);
-            }
+
             if (empty) {
                 CFRelease(empty);
             }
@@ -442,17 +449,19 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
             glDeleteFramebuffers(1, &filterFramebuffer);
             filterFramebuffer = 0;
             
-            if (filterTextureCache != NULL)
-            {
+            if (renderTarget != nil) {
                 CFRelease(renderTarget);
                 renderTarget = NULL;
+            }
                 
-                if (renderTexture)
-                {
-                    CFRelease(renderTexture);
-                    renderTexture = NULL;
-                }
-                
+            if (renderTexture)
+            {
+                CFRelease(renderTexture);
+                renderTexture = NULL;
+            }
+
+            if (filterTextureCache != NULL)
+            {
                 CVOpenGLESTextureCacheFlush(filterTextureCache, 0);
                 CFRelease(filterTextureCache);
                 filterTextureCache = NULL;

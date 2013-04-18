@@ -254,19 +254,21 @@
         {
             glDeleteFramebuffers(1, &secondFilterFramebuffer);
             secondFilterFramebuffer = 0;
-        }	
-        
-        if (filterTextureCache != NULL)
-        {
+        }
+
+        if (renderTarget != nil) {
             CFRelease(renderTarget);
             renderTarget = NULL;
-            
-            if (renderTexture)
-            {
-                CFRelease(renderTexture);
-                renderTexture = NULL;
-            }
-            
+        }
+
+        if (renderTexture)
+        {
+            CFRelease(renderTexture);
+            renderTexture = NULL;
+        }
+
+        if (filterTextureCache != NULL)
+        {
             CVOpenGLESTextureCacheFlush(filterTextureCache, 0);
             CFRelease(filterTextureCache);
             filterTextureCache = NULL;
