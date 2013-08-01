@@ -16,6 +16,7 @@
     [filterNavigationController pushViewController:filterListController animated:NO];
 
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
